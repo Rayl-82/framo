@@ -11,10 +11,12 @@
 - **Editorial 4-Cut Journey**: A guided 4-frame session with real-time 3-second countdowns, visual camera flash, and synthesizer shutter audio.
 - **Webcam & Mobile Ready**: Direct browser webcam access via the native `navigator.mediaDevices.getUserMedia()` API with automatic front/back camera detection and video mirroring.
 - **Graceful Fallbacks**: Intelligent permission handling and instant "Use Sample Photos" mode so you can test the entire workflow under any environment.
-- **Live Frame Customization**: Four signature frames rendered directly onto a high-resolution 1000×3000 Canvas:
+- **Live Frame Customization**: Six signature and graphic frames rendered directly onto a high-resolution Canvas:
   - **Classic Burgundy**: The signature FRAMO aesthetic with rich burgundy (`#781B28`), delicate cream borders, and gold accents.
+  - **Car Free Day**: Urban morning run club aesthetic with pace counter (`05'24"`), km milestone markers, barcode, and volt-lime accents (`Car-Free-Day-Frame.png`).
+  - **World Cup '26**: Official North America summer tournament celebration with the trophy, host nation flags, matchday badges, and soccer balls (`World-Cup-Frame.png`).
+  - **Photo Memories**: Cute vintage Korean cafe photobooth aesthetic with postage stamps, ribbons, coffee cup doodles, and heart stickers (`Vintage-Green-Photobooth-Memories-Frame.png`).
   - **Sunday Morning**: A quiet, airy ivory mat with warm taupe typography and morning light sensibility.
-  - **CFD Edition**: Contemporary Car Free Day street-editorial styling with technical crosshairs, frame indexes, and a graphic barcode imprint.
   - **Film Memories**: Vintage 35mm analog emulsion border with sprocket marks and a glowing retro orange LED date stamp (`'26 10 11`).
 - **Instant High-Res Export**: Single-click high-resolution PNG download (`framo-photobooth-[frame]-[date].png`).
 - **Physical Print Layout**: Dedicated CSS `@media print` layout engineered for 4×6 photo paper and desktop photo printers via `window.print()`.
@@ -25,11 +27,14 @@
 
 ```text
 framo/
-├── index.html       # Editorial landing page with hero strip mockup & frame gallery
+├── index.html       # Editorial landing page with hero strip mockup & 6-frame gallery
 ├── studio.html      # Interactive photobooth studio & capture canvas
 ├── style.css        # Custom brand styling, animations (flash, pulse), and print rules
 ├── script.js        # Camera engine, capture flow, canvas renderer & audio synthesis
-├── assets/          # High-resolution aesthetic sample photos for testing & mockups
+├── assets/          # Frame overlays and sample portrait photos
+│   ├── Car-Free-Day-Frame.png
+│   ├── World-Cup-Frame.png
+│   ├── Vintage-Green-Photobooth-Memories-Frame.png
 │   ├── sample-1.jpg
 │   ├── sample-2.jpg
 │   ├── sample-3.jpg

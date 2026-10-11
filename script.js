@@ -20,6 +20,54 @@ const FRAMES_CONFIG = {
     accentColor: '#C5A66A',
     tag: 'SIGNATURE'
   },
+  'car-free-day': {
+    id: 'car-free-day',
+    name: 'Car Free Day',
+    subtitle: 'Urban morning run club with pace counter, km markers & barcode',
+    overlaySrc: 'assets/Car-Free-Day-Frame.png',
+    bgColor: '#1E1E24',
+    windows: [
+      { x: 127, y: 202, w: 467, h: 364 },
+      { x: 127, y: 603, w: 467, h: 363 },
+      { x: 127, y: 1004, w: 467, h: 363 },
+      { x: 127, y: 1404, w: 467, h: 364 }
+    ],
+    canvasWidth: 724,
+    canvasHeight: 2172,
+    tag: 'SPORTS & CFD'
+  },
+  'world-cup-26': {
+    id: 'world-cup-26',
+    name: "World Cup '26",
+    subtitle: 'Official North America summer tournament edition with trophy & stamps',
+    overlaySrc: 'assets/World-Cup-Frame.png',
+    bgColor: '#F8F3E9',
+    windows: [
+      { x: 137, y: 333, w: 438, h: 333 },
+      { x: 137, y: 711, w: 452, h: 352 },
+      { x: 137, y: 1109, w: 452, h: 352 },
+      { x: 143, y: 1506, w: 420, h: 333 }
+    ],
+    canvasWidth: 724,
+    canvasHeight: 2172,
+    tag: 'TOURNAMENT'
+  },
+  'photobooth-memories': {
+    id: 'photobooth-memories',
+    name: 'Photo Memories',
+    subtitle: 'Cute vintage Korean aesthetic with ribbons, stamps & coffee cup',
+    overlaySrc: 'assets/Vintage-Green-Photobooth-Memories-Frame.png',
+    bgColor: '#F8F3E9',
+    windows: [
+      { x: 211, y: 122, w: 517, h: 282 },
+      { x: 211, y: 450, w: 517, h: 282 },
+      { x: 211, y: 779, w: 517, h: 282 },
+      { x: 211, y: 1108, w: 517, h: 281 }
+    ],
+    canvasWidth: 941,
+    canvasHeight: 1672,
+    tag: 'CUTE VINTAGE'
+  },
   'sunday-morning': {
     id: 'sunday-morning',
     name: 'Sunday Morning',
@@ -31,18 +79,6 @@ const FRAMES_CONFIG = {
     subtextColor: '#947B65',
     accentColor: '#781B28',
     tag: 'MINIMAL'
-  },
-  'cfd-edition': {
-    id: 'cfd-edition',
-    name: 'CFD Edition',
-    subtitle: 'Street editorial & Car Free Day spirit with contemporary typographic markers',
-    bgColor: '#1A1817',
-    cardBg: '#1A1817',
-    photoBorder: 'rgba(248, 243, 233, 0.2)',
-    textColor: '#F8F3E9',
-    subtextColor: '#947B65',
-    accentColor: '#781B28',
-    tag: 'CONTEMPORARY'
   },
   'film-memories': {
     id: 'film-memories',
@@ -57,6 +93,9 @@ const FRAMES_CONFIG = {
     tag: 'VINTAGE'
   }
 };
+
+// Backwards compatibility alias for cfd-edition
+FRAMES_CONFIG['cfd-edition'] = FRAMES_CONFIG['car-free-day'];
 
 const SAMPLE_PHOTOS = [
   'assets/sample-1.jpg',
@@ -214,6 +253,73 @@ async function renderStripOnCanvas(canvas, photoSources, frameId = 'classic-burg
     })
   );
 
+  // =========================================================================
+  // IMAGE OVERLAY FRAME RENDERER (e.g. Car Free Day, World Cup, Vintage Cute)
+  // =========================================================================
+  if (frame.overlaySrc) {
+    const W = frame.canvasWidth || 724;
+    const H = frame.canvasHeight || 2172;
+    canvas.width = W;
+    canvas.height = H;
+
+    // Fill background
+    ctx.fillStyle = frame.bgColor || '#F8F3E9';
+    ctx.fillRect(0, 0, W, H);
+
+    // Load overlay image
+    const overlayImg = await new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = frame.overlaySrc;
+    });
+
+    // Helper to draw an image maintaining aspect ratio (cover crop)
+    function drawCoverWindow(img, dx, dy, dw, dh) {
+      const sw = img.width || dw;
+      const sh = img.height || dh;
+      const imgRatio = sw / sh;
+      const targetRatio = dw / dh;
+      let sx, sy, sWidth, sHeight;
+
+      if (imgRatio > targetRatio) {
+        sHeight = sh;
+        sWidth = sh * targetRatio;
+        sx = (sw - sWidth) / 2;
+        sy = 0;
+      } else {
+        sWidth = sw;
+        sHeight = sw / targetRatio;
+        sx = 0;
+        sy = (sh - sHeight) / 2;
+      }
+      ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dw, dh);
+    }
+
+    // Draw the 4 photos under their window slots
+    for (let i = 0; i < 4; i++) {
+      const win = frame.windows ? frame.windows[i] : null;
+      const img = loadedImages[i];
+      if (win && img) {
+        ctx.save();
+        // 3px bleed to ensure seamless border contact
+        const bleed = 3;
+        drawCoverWindow(img, win.x - bleed, win.y - bleed, win.w + bleed * 2, win.h + bleed * 2);
+        ctx.restore();
+      }
+    }
+
+    // Draw the graphic frame overlay on top
+    if (overlayImg) {
+      ctx.drawImage(overlayImg, 0, 0, W, H);
+    }
+    return;
+  }
+
+  // =========================================================================
+  // PROCEDURAL CANVAS FRAME RENDERER (Classic Burgundy, Sunday Morning, etc.)
+  // =========================================================================
   // Background Fill
   ctx.fillStyle = frame.bgColor;
   ctx.fillRect(0, 0, W, H);
