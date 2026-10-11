@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRAMO Studio — 4-Cut Photobooth Experience</title>
+  <meta name="description" content="Capture your 4-cut moments with FRAMO photobooth studio. Direct webcam access, real-time countdown, and high-resolution editorial frame styling.">
+
+  <!-- Google Fonts: Cormorant Garamond & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            burgundy: '#781B28',
+            'burgundy-deep': '#54121D',
+            cream: '#F8F3E9',
+            ivory: '#FFFDF8',
+            gold: '#C5A66A',
+            brown: '#3D2D28',
+            taupe: '#947B65',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Outfit"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-[#F8F3E9] text-[#3D2D28] font-sans antialiased min-h-screen flex flex-col selection:bg-[#781B28] selection:text-[#FFFDF8]">
+
+  <!-- ========================================================================
+       STUDIO HEADER
+       ======================================================================== -->
+  <header class="bg-[#F8F3E9] border-b border-[#781B28]/15 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 h-18 py-4 flex items-center justify-between">
+      
+      <!-- Wordmark -->
+      <a href="index.html" class="flex items-baseline space-x-2 group focus:outline-none" aria-label="FRAMO Home">
+        <span class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#781B28] group-hover:text-[#54121D] transition-colors">framo.</span>
+      </a>
+
+      <!-- Center Studio Label & Live Indicator -->
+      <div class="flex items-center space-x-3">
+        <span class="text-xs tracking-[0.2em] uppercase font-medium text-[#781B28] hidden sm:inline">The Photo Studio</span>
+        <div class="flex items-center bg-[#FFFDF8] border border-[#781B28]/15 px-3 py-1 text-xs">
+          <span id="camera-status-dot" class="w-2 h-2 rounded-full inline-block mr-2 bg-stone-400"></span>
+          <span id="viewfinder-status" class="text-xs text-[#3D2D28] font-medium">Initializing...</span>
+        </div>
+      </div>
+
+      <!-- Back to Home Action -->
+      <a href="index.html" class="text-xs sm:text-sm font-medium text-[#947B65] hover:text-[#781B28] transition-colors flex items-center space-x-1">
+        <span>&larr;</span>
+        <span class="hidden sm:inline">Back to</span>
+        <span>Home</span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN STUDIO WORKSPACE
+       ======================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+
+    <!-- CAMERA NOTIFICATION / PERMISSION ALERT BANNER -->
+    <div id="camera-alert" class="hidden mb-6 bg-[#FFFDF8] border-l-4 border-[#781B28] p-5 shadow-sm">
+      <div class="flex items-start justify-between">
+        <div class="space-y-1">
+          <h2 id="alert-title" class="font-serif text-lg font-semibold text-[#781B28]">Camera Permission Required</h2>
+          <p id="alert-desc" class="text-xs sm:text-sm text-[#947B65] max-w-2xl leading-relaxed">
+            Please allow camera access in your browser to take live photobooth photos. If your device doesn't have an active camera or permission is denied, you can test the complete 4-cut photobooth flow using our built-in sample poses.
+          </p>
+        </div>
+        <button id="sample-fallback-btn" type="button" class="ml-4 shrink-0 px-4 py-2 bg-[#781B28] hover:bg-[#54121D] text-[#FFFDF8] text-xs font-medium uppercase tracking-wider transition-colors">
+          Use Sample Photos
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         STAGE 1: LIVE CAPTURE & SETUP VIEW
+         ====================================================================== -->
+    <div id="main-studio-view" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- LEFT COLUMN: VIEWFINDER & LIVE STAGE (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Mode Switcher Tabs -->
+        <div class="flex items-center justify-between border-b border-[#781B28]/15 pb-3">
+          <div class="flex items-center space-x-2">
+            <button type="button" class="px-3 py-1.5 bg-[#781B28] text-[#FFFDF8] text-xs font-medium uppercase tracking-wider">
+              Use This Device
+            </button>
+            <button id="phone-mode-btn" type="button" class="px-3 py-1.5 bg-[#FFFDF8] hover:bg-stone-100 text-[#3D2D28] text-xs font-medium uppercase tracking-wider border border-stone-200 transition-colors">
+              Use Your Phone
+            </button>
+          </div>
+
+          <!-- Camera Flip Button (visible if multi-cameras) -->
+          <button id="camera-switch-btn" type="button" class="hidden text-xs text-[#947B65] hover:text-[#781B28] font-medium flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            <span>Flip Camera</span>
+          </button>
+        </div>
+
+        <!-- The Viewfinder Container -->
+        <div id="viewfinder-box" class="relative aspect-[4/3] sm:aspect-[4/3] bg-stone-900 overflow-hidden border border-[#781B28]/20 strip-shadow flex items-center justify-center">
+          
+          <!-- Live Camera Video Stream -->
+          <video id="camera-stream" autoplay playsinline muted class="w-full h-full object-cover mirror-video"></video>
+
+          <!-- Flash Overlay (White Camera Flash Effect) -->
+          <div id="flash-overlay" class="absolute inset-0 pointer-events-none z-20 opacity-0"></div>
+
+          <!-- Big Countdown Display Layer (3, 2, 1) -->
+          <div id="countdown-display" class="absolute inset-0 flex items-center justify-center pointer-events-none z-30 hidden bg-black/20">
+            <span id="countdown-number" class="font-serif text-8xl sm:text-9xl font-bold text-[#FFFDF8] drop-shadow-2xl">3</span>
+          </div>
+
+          <!-- Live Pose Prompt Banner -->
+          <div id="pose-prompt" class="absolute top-4 inset-x-4 bg-[#781B28]/85 backdrop-blur-sm text-[#FFFDF8] text-xs sm:text-sm font-medium py-2 px-4 text-center tracking-wide hidden z-10">
+            Pose 1 / 4 — Soft smile & close friends
+          </div>
+
+          <!-- Corner Photobooth Target Marks -->
+          <div class="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-[#F8F3E9]/50 pointer-events-none"></div>
+          <div class="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-[#F8F3E9]/50 pointer-events-none"></div>
+          <div class="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-[#F8F3E9]/50 pointer-events-none"></div>
+          <div class="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-[#F8F3E9]/50 pointer-events-none"></div>
+
+          <!-- Subtle Center Crosshair -->
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+            <div class="w-6 h-px bg-white"></div>
+            <div class="h-6 w-px bg-white -ml-3"></div>
+          </div>
+
+        </div>
+
+        <!-- Viewfinder Controls & Capture Actions -->
+        <div class="bg-[#FFFDF8] border border-[#781B28]/15 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="space-y-0.5 text-center sm:text-left">
+            <p class="text-sm font-medium text-[#3D2D28]">Four-Cut Capture Flow</p>
+            <p class="text-xs text-[#947B65]">A 3-second countdown will guide you through four unscripted frames.</p>
+          </div>
+
+          <div class="flex items-center space-x-3 w-full sm:w-auto">
+            <!-- Start Session Primary Button -->
+            <button id="start-session-btn" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#781B28] hover:bg-[#54121D] text-[#FFFDF8] text-xs sm:text-sm font-semibold tracking-widest uppercase transition-all duration-200 border border-[#781B28] shadow-sm">
+              <span class="mr-2">●</span> Start Session
+            </button>
+
+            <!-- Cancel Button (visible during capture) -->
+            <button id="cancel-session-btn" type="button" class="hidden w-full sm:w-auto px-6 py-3.5 bg-stone-200 hover:bg-stone-300 text-[#3D2D28] text-xs uppercase tracking-wider font-semibold transition-colors">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: SESSION SETUP & LIVE 4-CUT STRIP PREVIEW (5 cols) -->
+      <div id="setup-panel" class="lg:col-span-5 space-y-6">
+        
+        <!-- Frame Style Selector Section -->
+        <div class="bg-[#FFFDF8] border border-[#781B28]/15 p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-serif text-lg font-semibold text-[#3D2D28]">Select Frame Style</h3>
+            <span id="active-frame-label" class="text-xs font-mono text-[#781B28] font-semibold">Classic Burgundy</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            
+            <!-- Frame Option 1 -->
+            <button type="button" data-frame-id="classic-burgundy" class="frame-selector-btn text-left p-3 border border-stone-200 hover:border-[#781B28] transition-all relative flex flex-col justify-between h-20">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[#3D2D28]">Classic Burgundy</span>
+                <span class="frame-check text-[10px] text-[#781B28] font-bold">✓</span>
+              </div>
+              <div class="flex items-center space-x-1.5 mt-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#781B28] border border-white"></span>
+                <span class="text-[10px] text-[#947B65]">Signature warmth</span>
+              </div>
+            </button>
+
+            <!-- Frame Option 2 -->
+            <button type="button" data-frame-id="sunday-morning" class="frame-selector-btn text-left p-3 border border-stone-200 hover:border-[#781B28] transition-all relative flex flex-col justify-between h-20">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[#3D2D28]">Sunday Morning</span>
+                <span class="frame-check text-[10px] text-[#781B28] font-bold hidden">✓</span>
+              </div>
+              <div class="flex items-center space-x-1.5 mt-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#F8F3E9] border border-stone-400"></span>
+                <span class="text-[10px] text-[#947B65]">Quiet ivory mat</span>
+              </div>
+            </button>
+
+            <!-- Frame Option 3 -->
+            <button type="button" data-frame-id="cfd-edition" class="frame-selector-btn text-left p-3 border border-stone-200 hover:border-[#781B28] transition-all relative flex flex-col justify-between h-20">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[#3D2D28]">CFD Edition</span>
+                <span class="frame-check text-[10px] text-[#781B28] font-bold hidden">✓</span>
+              </div>
+              <div class="flex items-center space-x-1.5 mt-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#1A1817] border border-white"></span>
+                <span class="text-[10px] text-[#947B65]">Street editorial</span>
+              </div>
+            </button>
+
+            <!-- Frame Option 4 -->
+            <button type="button" data-frame-id="film-memories" class="frame-selector-btn text-left p-3 border border-stone-200 hover:border-[#781B28] transition-all relative flex flex-col justify-between h-20">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[#3D2D28]">Film Memories</span>
+                <span class="frame-check text-[10px] text-[#781B28] font-bold hidden">✓</span>
+              </div>
+              <div class="flex items-center space-x-1.5 mt-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#E07A5F] border border-white"></span>
+                <span class="text-[10px] text-[#947B65]">35mm LED stamp</span>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Live Photo Strip Preview (4 Slots) -->
+        <div class="bg-[#FFFDF8] border border-[#781B28]/15 p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-serif text-lg font-semibold text-[#3D2D28]">Session Strip Preview</h3>
+            <span class="text-[10px] font-mono uppercase text-[#947B65] tracking-widest">4 SLOTS</span>
+          </div>
+
+          <!-- Mini Strip Container -->
+          <div id="capture-strip-preview" class="max-w-[240px] mx-auto bg-[#F8F3E9] p-3 border border-stone-300 shadow-sm space-y-2.5">
+            
+            <!-- Slot 0 -->
+            <div id="slot-0" class="relative aspect-[3/2] bg-white border border-stone-200 overflow-hidden">
+              <div class="flex flex-col items-center justify-center h-full text-stone-400">
+                <span class="font-serif text-lg">01</span>
+                <span class="text-[10px] uppercase tracking-wider font-sans mt-0.5">Empty</span>
+              </div>
+            </div>
+
+            <!-- Slot 1 -->
+            <div id="slot-1" class="relative aspect-[3/2] bg-white border border-stone-200 overflow-hidden">
+              <div class="flex flex-col items-center justify-center h-full text-stone-400">
+                <span class="font-serif text-lg">02</span>
+                <span class="text-[10px] uppercase tracking-wider font-sans mt-0.5">Empty</span>
+              </div>
+            </div>
+
+            <!-- Slot 2 -->
+            <div id="slot-2" class="relative aspect-[3/2] bg-white border border-stone-200 overflow-hidden">
+              <div class="flex flex-col items-center justify-center h-full text-stone-400">
+                <span class="font-serif text-lg">03</span>
+                <span class="text-[10px] uppercase tracking-wider font-sans mt-0.5">Empty</span>
+              </div>
+            </div>
+
+            <!-- Slot 3 -->
+            <div id="slot-3" class="relative aspect-[3/2] bg-white border border-stone-200 overflow-hidden">
+              <div class="flex flex-col items-center justify-center h-full text-stone-400">
+                <span class="font-serif text-lg">04</span>
+                <span class="text-[10px] uppercase tracking-wider font-sans mt-0.5">Empty</span>
+              </div>
+            </div>
+
+            <!-- Mini Strip Footer -->
+            <div class="pt-2 text-center border-t border-stone-300">
+              <span class="font-serif text-sm tracking-tight text-[#781B28] font-semibold">framo.</span>
+              <p class="text-[8px] text-[#947B65] tracking-widest uppercase">Four Frames Keepsake</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================
+         STAGE 2: REVIEW, FRAME CUSTOMIZATION, DOWNLOAD & PRINT VIEW
+         ====================================================================== -->
+    <div id="result-panel" class="hidden space-y-8">
+      
+      <!-- Top Success Header -->
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <div class="inline-flex items-center space-x-1.5 text-[#781B28]">
+          <span class="text-xs uppercase tracking-[0.25em] font-medium">Session Complete</span>
+        </div>
+        <h2 class="font-serif text-4xl sm:text-5xl text-[#3D2D28] font-normal tracking-tight">
+          Your four frames, preserved.
+        </h2>
+        <p class="text-sm sm:text-base text-[#947B65] font-light">
+          Switch frames below to see different moods without taking photos again. Download your high-res digital strip or print directly.
+        </p>
+      </div>
+
+      <!-- Main Result Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-5xl mx-auto">
+        
+        <!-- Left Column: High-Res Canvas Strip Display -->
+        <div class="lg:col-span-6 flex justify-center">
+          <div class="w-full max-w-[340px] sm:max-w-[360px] bg-white p-3 border border-stone-200 strip-shadow-lg">
+            <canvas id="final-strip-canvas" class="w-full h-auto block"></canvas>
+          </div>
+        </div>
+
+        <!-- Right Column: Frame Switcher & Export Controls -->
+        <div class="lg:col-span-6 space-y-6">
+          
+          <!-- Frame Switcher Card -->
+          <div class="bg-[#FFFDF8] border border-[#781B28]/15 p-6 space-y-4">
+            <div class="space-y-1">
+              <h3 class="font-serif text-xl font-semibold text-[#3D2D28]">Switch Frame Design</h3>
+              <p class="text-xs text-[#947B65]">Select any frame style to re-render the composite image instantly.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              
+              <button type="button" data-frame-id="classic-burgundy" class="frame-selector-btn text-left p-3.5 border border-stone-200 hover:border-[#781B28] transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-[#3D2D28]">Classic Burgundy</span>
+                  <span class="frame-check text-xs text-[#781B28] font-bold">✓</span>
+                </div>
+                <p class="text-[11px] text-[#947B65] mt-1">Warm burgundy & gold</p>
+              </button>
+
+              <button type="button" data-frame-id="sunday-morning" class="frame-selector-btn text-left p-3.5 border border-stone-200 hover:border-[#781B28] transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-[#3D2D28]">Sunday Morning</span>
+                  <span class="frame-check text-xs text-[#781B28] font-bold hidden">✓</span>
+                </div>
+                <p class="text-[11px] text-[#947B65] mt-1">Soft ivory & warm taupe</p>
+              </button>
+
+              <button type="button" data-frame-id="cfd-edition" class="frame-selector-btn text-left p-3.5 border border-stone-200 hover:border-[#781B28] transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-[#3D2D28]">CFD Edition</span>
+                  <span class="frame-check text-xs text-[#781B28] font-bold hidden">✓</span>
+                </div>
+                <p class="text-[11px] text-[#947B65] mt-1">Modern street editorial</p>
+              </button>
+
+              <button type="button" data-frame-id="film-memories" class="frame-selector-btn text-left p-3.5 border border-stone-200 hover:border-[#781B28] transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-[#3D2D28]">Film Memories</span>
+                  <span class="frame-check text-xs text-[#781B28] font-bold hidden">✓</span>
+                </div>
+                <p class="text-[11px] text-[#947B65] mt-1">35mm LED date stamp</p>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Download & Print Actions -->
+          <div class="bg-[#FFFDF8] border border-[#781B28]/15 p-6 space-y-4">
+            <h3 class="font-serif text-xl font-semibold text-[#3D2D28]">Export & Share</h3>
+
+            <div class="space-y-3">
+              <!-- Download Button -->
+              <button id="download-btn" type="button" class="w-full flex items-center justify-center px-6 py-3.5 bg-[#781B28] hover:bg-[#54121D] text-[#FFFDF8] text-xs sm:text-sm font-semibold tracking-widest uppercase transition-colors shadow-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Photo (PNG)
+              </button>
+
+              <!-- Print Button -->
+              <button id="print-btn" type="button" class="w-full flex items-center justify-center px-6 py-3.5 bg-[#FFFDF8] hover:bg-stone-50 text-[#781B28] border-2 border-[#781B28] text-xs sm:text-sm font-semibold tracking-widest uppercase transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print Photo
+              </button>
+            </div>
+
+            <!-- Print Disclaimer Note -->
+            <p class="text-[11px] text-[#947B65] leading-relaxed pt-1">
+              * Note: Physical printing opens your standard system print dialog. Ensure you have a connected photo or inkjet printer configured for card or letter size.
+            </p>
+          </div>
+
+          <!-- Retake & Return Links -->
+          <div class="flex items-center justify-between pt-2">
+            <button id="retake-btn" type="button" class="text-xs font-semibold uppercase tracking-wider text-[#781B28] hover:text-[#54121D] transition-colors border-b border-[#781B28] pb-0.5">
+              &circlearrowleft; Retake Entire Session
+            </button>
+
+            <a href="index.html" class="text-xs font-medium text-[#947B65] hover:text-[#3D2D28] transition-colors">
+              Return to Landing Page &rarr;
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL: USE YOUR PHONE INSTRUCTIONS
+       ======================================================================== -->
+  <div id="phone-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-[#FFFDF8] max-w-md w-full p-8 border border-[#781B28]/20 shadow-xl space-y-6 text-center">
+      
+      <div class="w-12 h-12 bg-[#F8F3E9] text-[#781B28] flex items-center justify-center mx-auto text-xl font-serif">
+        📱
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="font-serif text-2xl font-semibold text-[#3D2D28]">Use Your Phone</h3>
+        <p class="text-xs sm:text-sm text-[#947B65] leading-relaxed">
+          For the best handheld photobooth experience, open FRAMO directly in your mobile browser.
+        </p>
+      </div>
+
+      <div class="bg-[#F8F3E9] p-4 border border-stone-200 text-left space-y-2 text-xs text-[#3D2D28]">
+        <p class="font-semibold text-[#781B28]">How it works:</p>
+        <ol class="list-decimal list-inside space-y-1 text-[#947B65]">
+          <li>Connect your phone to the same Wi-Fi network as this computer.</li>
+          <li>Open your mobile browser (Safari / Chrome).</li>
+          <li>Navigate to your local server address (e.g., <code class="bg-white px-1 py-0.5 text-stone-800">http://[Your-IP]:5500</code>).</li>
+          <li>Enjoy handheld 4-cut photography with front and rear cameras!</li>
+        </ol>
+      </div>
+
+      <div class="pt-2">
+        <button id="close-phone-modal-btn" type="button" class="w-full py-3 bg-[#781B28] text-[#FFFDF8] text-xs font-semibold uppercase tracking-widest hover:bg-[#54121D] transition-colors">
+          Got It, Continue on This Device
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       DEDICATED PRINT AREA (HIDDEN EXCEPT ON @MEDIA PRINT)
+       ======================================================================== -->
+  <div id="print-area">
+    <img id="print-strip-img" alt="Printable FRAMO 4-Cut Photo Strip" />
+  </div>
+
+  <!-- Shared Script -->
+  <script src="script.js"></script>
+</body>
+</html>

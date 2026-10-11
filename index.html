@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRAMO — Turn Every Moment Into Frames | 4-Cut Photobooth</title>
+  <meta name="description" content="FRAMO is an elegant 4-cut photobooth web experience inspired by Korean photo booths, editorial magazine layouts, and vintage analog photography.">
+
+  <!-- Google Fonts: Cormorant Garamond & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            burgundy: '#781B28',
+            'burgundy-deep': '#54121D',
+            cream: '#F8F3E9',
+            ivory: '#FFFDF8',
+            gold: '#C5A66A',
+            brown: '#3D2D28',
+            taupe: '#947B65',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Outfit"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-[#F8F3E9] text-[#3D2D28] font-sans antialiased min-h-screen selection:bg-[#781B28] selection:text-[#FFFDF8]">
+
+  <!-- ========================================================================
+       TOP HEADER & MINIMAL NAVIGATION
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 bg-[#F8F3E9]/95 backdrop-blur-sm border-b border-[#781B28]/15">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Wordmark -->
+      <a href="index.html" class="flex items-baseline space-x-1 group focus:outline-none" aria-label="FRAMO Home">
+        <span class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#781B28] transition-colors group-hover:text-[#54121D]">framo.</span>
+        <span class="text-[10px] tracking-widest text-[#947B65] font-sans uppercase hidden sm:inline ml-2 border-l border-[#781B28]/20 pl-2">Photobooth</span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-10 text-sm font-medium tracking-wide text-[#3D2D28]" aria-label="Main Navigation">
+        <a href="#experience" class="hover:text-[#781B28] transition-colors">The Experience</a>
+        <a href="#frames" class="hover:text-[#781B28] transition-colors">Our Frames</a>
+        <a href="#about" class="hover:text-[#781B28] transition-colors">About</a>
+      </nav>
+
+      <!-- CTA Button & Mobile Toggle -->
+      <div class="flex items-center space-x-4">
+        <a href="studio.html" id="nav-cta-btn" class="inline-flex items-center justify-center px-5 py-2.5 bg-[#781B28] hover:bg-[#54121D] text-[#FFFDF8] text-xs sm:text-sm font-medium tracking-wider uppercase transition-all duration-200 border border-[#781B28] shadow-sm hover:shadow">
+          Start Your Session
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobile-menu-toggle" type="button" class="md:hidden p-2 text-[#3D2D28] hover:text-[#781B28] focus:outline-none" aria-label="Toggle navigation menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-nav" class="hidden md:hidden border-t border-[#781B28]/10 bg-[#FFFDF8] px-6 py-5 space-y-4 shadow-md">
+      <a href="#experience" class="block text-sm font-medium text-[#3D2D28] hover:text-[#781B28]">The Experience</a>
+      <a href="#frames" class="block text-sm font-medium text-[#3D2D28] hover:text-[#781B28]">Our Frames</a>
+      <a href="#about" class="block text-sm font-medium text-[#3D2D28] hover:text-[#781B28]">About</a>
+      <div class="pt-2 border-t border-stone-200">
+        <a href="studio.html" class="block text-center w-full py-2.5 bg-[#781B28] text-[#FFFDF8] text-xs uppercase tracking-widest font-medium">Enter Studio</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================================================================
+         HERO SECTION: EDITORIAL TWO-COLUMN LAYOUT
+         ======================================================================== -->
+    <section class="relative overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-28 border-b border-[#781B28]/10">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          <!-- Hero Left: Editorial Copy -->
+          <div class="lg:col-span-7 space-y-8 max-w-2xl">
+            
+            <div class="inline-flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-[#781B28]"></span>
+              <p class="text-xs uppercase tracking-[0.25em] text-[#781B28] font-medium">A little moment, a little memory</p>
+            </div>
+
+            <h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.08] text-[#3D2D28] font-normal tracking-tight">
+              Turn your moments into something <span class="italic font-normal text-[#781B28]">memorable.</span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-[#947B65] font-light leading-relaxed max-w-lg">
+              Four frames. Your people. Your story. An intimate, browser-based Korean 4-cut photobooth with editorial warmth.
+            </p>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+              <a href="studio.html" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#781B28] hover:bg-[#54121D] text-[#FFFDF8] text-sm font-medium tracking-widest uppercase transition-all duration-200 border border-[#781B28] shadow-sm hover:shadow-md">
+                Start Your Session
+                <svg class="ml-2.5 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+
+              <a href="#frames" class="inline-flex items-center text-sm font-medium text-[#3D2D28] hover:text-[#781B28] transition-colors border-b border-[#3D2D28]/30 hover:border-[#781B28] pb-0.5 tracking-wide">
+                Explore the Frames
+              </a>
+            </div>
+
+            <!-- Minimal Metadata Notes -->
+            <div class="pt-6 border-t border-[#781B28]/10 grid grid-cols-3 gap-4 text-xs text-[#947B65]">
+              <div>
+                <span class="block font-medium text-[#3D2D28]">04 Frames</span>
+                <span>Unscripted memories</span>
+              </div>
+              <div>
+                <span class="block font-medium text-[#3D2D28]">High-Res</span>
+                <span>Ready to download & print</span>
+              </div>
+              <div>
+                <span class="block font-medium text-[#3D2D28]">Zero Setup</span>
+                <span>Instant webcam access</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Right: Photobooth 4-Cut Strip Mockup -->
+          <div class="lg:col-span-5 flex justify-center lg:justify-end">
+            <div class="relative w-full max-w-[320px] sm:max-w-[340px]">
+              
+              <!-- Subtle decorative backing / offset frame -->
+              <div class="absolute -inset-3 bg-[#C5A66A]/20 transform rotate-2 rounded-none -z-10"></div>
+              <div class="absolute -inset-1 bg-[#781B28]/10 transform -rotate-1 rounded-none -z-10"></div>
+
+              <!-- Photobooth Strip in Classic Burgundy -->
+              <div class="bg-[#781B28] text-[#F8F3E9] p-5 strip-shadow-lg transition-transform hover:-translate-y-1 duration-300">
+                
+                <!-- 4 Photo Slots -->
+                <div class="space-y-3">
+                  
+                  <div class="relative aspect-[3/2] bg-stone-900 overflow-hidden border border-[#F8F3E9]/30">
+                    <img src="assets/sample-1.jpg" alt="Friends laughing in photobooth" class="w-full h-full object-cover">
+                    <span class="absolute top-1.5 left-1.5 bg-[#781B28]/90 text-[#F8F3E9] text-[9px] px-1.5 py-0.5 font-sans">01</span>
+                  </div>
+
+                  <div class="relative aspect-[3/2] bg-stone-900 overflow-hidden border border-[#F8F3E9]/30">
+                    <img src="assets/sample-2.jpg" alt="Smiling photobooth portrait" class="w-full h-full object-cover">
+                    <span class="absolute top-1.5 left-1.5 bg-[#781B28]/90 text-[#F8F3E9] text-[9px] px-1.5 py-0.5 font-sans">02</span>
+                  </div>
+
+                  <div class="relative aspect-[3/2] bg-stone-900 overflow-hidden border border-[#F8F3E9]/30">
+                    <img src="assets/sample-3.jpg" alt="Warm candid friendship moment" class="w-full h-full object-cover">
+                    <span class="absolute top-1.5 left-1.5 bg-[#781B28]/90 text-[#F8F3E9] text-[9px] px-1.5 py-0.5 font-sans">03</span>
+                  </div>
+
+                  <div class="relative aspect-[3/2] bg-stone-900 overflow-hidden border border-[#F8F3E9]/30">
+                    <img src="assets/sample-4.jpg" alt="Playful photobooth shot" class="w-full h-full object-cover">
+                    <span class="absolute top-1.5 left-1.5 bg-[#781B28]/90 text-[#F8F3E9] text-[9px] px-1.5 py-0.5 font-sans">04</span>
+                  </div>
+
+                </div>
+
+                <!-- Strip Footer -->
+                <div class="pt-5 mt-4 border-t border-[#C5A66A]/40 text-center space-y-1">
+                  <p class="font-serif text-3xl font-semibold tracking-tight text-[#F8F3E9]">framo.</p>
+                  <p class="text-[9px] tracking-[0.2em] uppercase text-[#C5A66A] font-medium">Turn Every Moment Into Frames.</p>
+                  <div class="flex items-center justify-between text-[8px] text-[#F8F3E9]/60 pt-2 font-mono">
+                    <span>SEOUL // LAB</span>
+                    <span class="text-[#C5A66A]">✦ ✦ ✦</span>
+                    <span>2026.10.11</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Strip Caption Badge -->
+              <div class="mt-4 text-center">
+                <span class="inline-block text-[11px] tracking-[0.2em] uppercase text-[#947B65] font-medium border-b border-[#947B65]/30 pb-0.5">
+                  YOUR NEXT FAVORITE MEMORY
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         EXPERIENCE SECTION: THREE REFINED STEPS
+         ======================================================================== -->
+    <section id="experience" class="py-24 bg-[#FFFDF8] border-b border-[#781B28]/10">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="max-w-2xl mb-16">
+          <p class="text-xs uppercase tracking-[0.25em] text-[#781B28] font-medium mb-3">Simple Ritual</p>
+          <h2 class="font-serif text-4xl sm:text-5xl text-[#3D2D28] font-normal tracking-tight mb-4">
+            More than just a photo.
+          </h2>
+          <p class="text-lg text-[#947B65] font-light leading-relaxed">
+            A little time together, four favorite frames, and something worth keeping.
+          </p>
+        </div>
+
+        <!-- Three Steps Editorial Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 relative">
+          
+          <!-- Step 1 -->
+          <div class="space-y-4 pt-6 border-t border-[#781B28]/20">
+            <span class="font-serif text-4xl text-[#781B28] font-normal">01</span>
+            <h3 class="font-serif text-2xl text-[#3D2D28]">Get Together</h3>
+            <p class="text-sm text-[#947B65] leading-relaxed">
+              Step into the frame. Gather your favorite people or share a candid solo portrait in front of your device camera. No pressure, just real moments.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="space-y-4 pt-6 border-t border-[#781B28]/20">
+            <span class="font-serif text-4xl text-[#781B28] font-normal">02</span>
+            <h3 class="font-serif text-2xl text-[#3D2D28]">Capture Four Moments</h3>
+            <p class="text-sm text-[#947B65] leading-relaxed">
+              Enjoy an authentic 3-second countdown per frame. Switch poses, smile, laugh, and let your natural expressions unfold without rushing.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="space-y-4 pt-6 border-t border-[#781B28]/20">
+            <span class="font-serif text-4xl text-[#781B28] font-normal">03</span>
+            <h3 class="font-serif text-2xl text-[#3D2D28]">Keep Your Strip</h3>
+            <p class="text-sm text-[#947B65] leading-relaxed">
+              Curate your aesthetic from four signature frame designs. Download a crisp high-res PNG for digital archives, or print directly to physical paper.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FRAME GALLERY SECTION: INTERACTIVE FRAME SELECTOR
+         ======================================================================== -->
+    <section id="frames" class="py-24 bg-[#F8F3E9] border-b border-[#781B28]/10">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <div class="max-w-2xl">
+            <p class="text-xs uppercase tracking-[0.25em] text-[#781B28] font-medium mb-3">Signature Aesthetics</p>
+            <h2 class="font-serif text-4xl sm:text-5xl text-[#3D2D28] font-normal tracking-tight mb-3">
+              Find your frame.
+            </h2>
+            <p class="text-base sm:text-lg text-[#947B65] font-light">
+              Select a frame to preview the mood. Your choice persists directly when you enter the studio.
+            </p>
+          </div>
+
+          <div class="mt-6 md:mt-0">
+            <a href="studio.html" id="selected-frame-cta" class="inline-flex items-center text-xs tracking-widest uppercase font-semibold text-[#781B28] hover:text-[#54121D] transition-colors border-b-2 border-[#781B28] pb-1">
+              Enter Studio with Classic Burgundy →
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Frame Mockup Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Frame 1: Classic Burgundy -->
+          <div data-frame-id="classic-burgundy" class="landing-frame-card cursor-pointer bg-[#FFFDF8] border border-stone-200 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative group">
+            
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] tracking-widest font-mono text-[#781B28] uppercase font-semibold">SIGNATURE</span>
+              <span class="selected-badge text-[10px] bg-[#781B28] text-white px-2 py-0.5 rounded-none font-medium hidden">ACTIVE</span>
+            </div>
+
+            <!-- Mini Strip Mockup -->
+            <div class="bg-[#781B28] p-3 text-white shadow-sm mb-4">
+              <div class="space-y-1.5">
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-1.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-2.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-3.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-4.jpg" class="w-full h-full object-cover"></div>
+              </div>
+              <div class="pt-2 text-center">
+                <span class="font-serif text-sm tracking-tight text-[#F8F3E9]">framo.</span>
+                <span class="block text-[7px] text-[#C5A66A] tracking-wider">CLASSIC BURGUNDY</span>
+              </div>
+            </div>
+
+            <h3 class="font-serif text-xl text-[#3D2D28] group-hover:text-[#781B28] transition-colors">Classic Burgundy</h3>
+            <p class="text-xs text-[#947B65] mt-1 leading-relaxed">
+              Warm burgundy background with gold lettering. Rich, nostalgic, and unmistakably FRAMO.
+            </p>
+          </div>
+
+          <!-- Frame 2: Sunday Morning -->
+          <div data-frame-id="sunday-morning" class="landing-frame-card cursor-pointer bg-[#FFFDF8] border border-stone-200 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative group">
+            
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] tracking-widest font-mono text-[#947B65] uppercase font-semibold">MINIMAL</span>
+              <span class="selected-badge text-[10px] bg-[#781B28] text-white px-2 py-0.5 rounded-none font-medium hidden">ACTIVE</span>
+            </div>
+
+            <!-- Mini Strip Mockup -->
+            <div class="bg-[#F8F3E9] p-3 border border-stone-200 shadow-sm mb-4">
+              <div class="space-y-1.5">
+                <div class="aspect-[3/2] bg-stone-200 overflow-hidden"><img src="assets/sample-1.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-200 overflow-hidden"><img src="assets/sample-2.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-200 overflow-hidden"><img src="assets/sample-3.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-200 overflow-hidden"><img src="assets/sample-4.jpg" class="w-full h-full object-cover"></div>
+              </div>
+              <div class="pt-2 text-center">
+                <span class="font-serif italic text-xs tracking-tight text-[#3D2D28]">Sunday Morning</span>
+                <span class="block text-[7px] text-[#947B65] tracking-wider">QUIET IVORY MAT</span>
+              </div>
+            </div>
+
+            <h3 class="font-serif text-xl text-[#3D2D28] group-hover:text-[#781B28] transition-colors">Sunday Morning</h3>
+            <p class="text-xs text-[#947B65] mt-1 leading-relaxed">
+              Soft ivory mat with warm taupe typography. Quiet, airy, and bathed in natural daylight.
+            </p>
+          </div>
+
+          <!-- Frame 3: CFD Edition -->
+          <div data-frame-id="cfd-edition" class="landing-frame-card cursor-pointer bg-[#FFFDF8] border border-stone-200 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative group">
+            
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] tracking-widest font-mono text-[#781B28] uppercase font-semibold">CONTEMPORARY</span>
+              <span class="selected-badge text-[10px] bg-[#781B28] text-white px-2 py-0.5 rounded-none font-medium hidden">ACTIVE</span>
+            </div>
+
+            <!-- Mini Strip Mockup -->
+            <div class="bg-[#1A1817] p-3 text-white shadow-sm mb-4">
+              <div class="space-y-1.5">
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-1.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-2.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-3.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-4.jpg" class="w-full h-full object-cover"></div>
+              </div>
+              <div class="pt-2 text-left">
+                <span class="font-serif font-bold text-xs tracking-tight text-white">framo.</span>
+                <span class="block text-[7px] text-[#781B28] tracking-widest font-mono uppercase font-bold">CFD // LAB 04</span>
+              </div>
+            </div>
+
+            <h3 class="font-serif text-xl text-[#3D2D28] group-hover:text-[#781B28] transition-colors">CFD Edition</h3>
+            <p class="text-xs text-[#947B65] mt-1 leading-relaxed">
+              Car Free Day & street editorial spirit. Monospace coordinates, barcode stamp, and bold accents.
+            </p>
+          </div>
+
+          <!-- Frame 4: Film Memories -->
+          <div data-frame-id="film-memories" class="landing-frame-card cursor-pointer bg-[#FFFDF8] border border-stone-200 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative group">
+            
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] tracking-widest font-mono text-amber-700 uppercase font-semibold">VINTAGE</span>
+              <span class="selected-badge text-[10px] bg-[#781B28] text-white px-2 py-0.5 rounded-none font-medium hidden">ACTIVE</span>
+            </div>
+
+            <!-- Mini Strip Mockup -->
+            <div class="bg-[#201A18] p-3 text-white shadow-sm mb-4">
+              <div class="space-y-1.5">
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-1.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-2.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-3.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-[3/2] bg-stone-800 overflow-hidden"><img src="assets/sample-4.jpg" class="w-full h-full object-cover"></div>
+              </div>
+              <div class="pt-2 text-center">
+                <span class="font-serif text-xs text-white">framo.</span>
+                <span class="block text-[8px] font-mono text-[#E07A5F] tracking-widest font-bold">'26 10 11</span>
+              </div>
+            </div>
+
+            <h3 class="font-serif text-xl text-[#3D2D28] group-hover:text-[#781B28] transition-colors">Film Memories</h3>
+            <p class="text-xs text-[#947B65] mt-1 leading-relaxed">
+              35mm film border details, analog sprocket cues, and a glowing retro orange LED date stamp.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         BRAND STORY SECTION: MINIMAL & CALM
+         ======================================================================== -->
+    <section id="about" class="py-24 bg-[#FFFDF8] border-b border-[#781B28]/10">
+      <div class="max-w-4xl mx-auto px-6 sm:px-8 text-center space-y-6">
+        
+        <p class="text-xs uppercase tracking-[0.25em] text-[#781B28] font-medium">Philosophy</p>
+
+        <h2 class="font-serif text-4xl sm:text-5xl text-[#3D2D28] font-normal tracking-tight">
+          Made for the moments in between.
+        </h2>
+
+        <div class="w-12 h-px bg-[#781B28]/30 mx-auto my-6"></div>
+
+        <p class="text-lg sm:text-xl text-[#947B65] font-light leading-relaxed max-w-2xl mx-auto">
+          FRAMO brings a little creativity into everyday moments through photography, thoughtful frames, and technology that feels simple to use.
+        </p>
+
+        <p class="text-sm text-[#947B65] font-light max-w-xl mx-auto pt-2">
+          Designed as a university entrepreneurship prototype, FRAMO merges the intimacy of physical photobooth booths with the instant accessibility of the modern web.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FINAL CALL TO ACTION
+         ======================================================================== -->
+    <section class="py-24 bg-[#781B28] text-[#FFFDF8]">
+      <div class="max-w-4xl mx-auto px-6 sm:px-8 text-center space-y-8">
+        
+        <p class="text-xs uppercase tracking-[0.3em] text-[#C5A66A] font-medium">The Studio Awaits</p>
+
+        <h2 class="font-serif text-5xl sm:text-6xl text-[#FFFDF8] font-normal tracking-tight">
+          Ready for your four frames?
+        </h2>
+
+        <p class="text-base sm:text-lg text-[#F8F3E9]/80 font-light max-w-lg mx-auto">
+          Step into our photobooth studio right in your browser. Take four unscripted photos, pick your signature frame, and download or print your strip.
+        </p>
+
+        <div class="pt-4">
+          <a href="studio.html" class="inline-flex items-center justify-center px-10 py-4 bg-[#FFFDF8] text-[#781B28] hover:bg-[#F8F3E9] text-xs sm:text-sm font-semibold tracking-widest uppercase transition-all duration-200 shadow-md hover:shadow-lg">
+            Enter the Studio
+            <svg class="ml-3 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="bg-[#F8F3E9] border-t border-[#781B28]/15 py-12">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between space-y-6 sm:space-y-0">
+      
+      <!-- Brand & Tagline -->
+      <div class="space-y-1 text-center sm:text-left">
+        <span class="font-serif text-3xl font-semibold text-[#781B28]">framo.</span>
+        <p class="text-xs text-[#947B65] tracking-wider">Turn Every Moment Into Frames.</p>
+      </div>
+
+      <!-- Copyright & Back to Top -->
+      <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8 text-xs text-[#947B65]">
+        <span>&copy; 2026 FRAMO Studio. All rights reserved.</span>
+        <a href="#" class="hover:text-[#781B28] transition-colors border-b border-transparent hover:border-[#781B28]">Back to top &uarr;</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
